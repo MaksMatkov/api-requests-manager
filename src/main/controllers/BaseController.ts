@@ -7,8 +7,6 @@ interface IEntityConstructor<EntityType> {
   new (): EntityType;
 }
 
-//export type EntityType = Request | HttpMethod;
-
 export abstract class BaseController <EntityType extends Entity>{
 
   constructor(protected _db : DbContext, protected table_name : string, protected entityConstructor: IEntityConstructor<EntityType>){

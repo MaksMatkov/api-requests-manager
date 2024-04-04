@@ -1,4 +1,5 @@
 import { IEntity } from "./IEntity";
+import { IMapping } from "./IMapping";
 import { IRequest } from "./IRequest";
 
 export interface IRequestsStreamItem extends IEntity  {
