@@ -13,7 +13,7 @@ export class RequestsStreamItemModel extends Entity implements IRequestsStreamIt
   }
   requests_stream_id: number | undefined;
   request_id: number | undefined;
-  request_next_id: number | undefined;
+  index: number | undefined;
   mapping_json: string | undefined;
 
   public get request() :  Promise<IRequest | undefined> {
@@ -21,14 +21,14 @@ export class RequestsStreamItemModel extends Entity implements IRequestsStreamIt
   }
 
   public get request_next() :  Promise<IRequest | undefined> {
-    return requestService.LoadByID(this.request_next_id!);
+    return requestService.LoadByID(this.index!);
   }
 
   FillFromJson(base: any): void {
     this.id = base.id;
     this.requests_stream_id = base.requests_stream_id;
     this.request_id = base.request_id;
-    this.request_next_id = base.request_next_id;
+    this.index = base.request_next_id;
     this.mapping_json = base.mapping_json;
   }
 

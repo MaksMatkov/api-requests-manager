@@ -1,7 +1,7 @@
-import { IRequestsStreamItem } from "../../domain/interfaces/IRequestsStreamItem";
+import { RequestFullModel } from "../models/RequestFullModel";
 
 export interface ICaller {
-  RequestStreamItems : IRequestsStreamItem[];
+  Request : RequestFullModel[];
   CurrentIndex : number;
   Responses : string[];
   Procces() : void;

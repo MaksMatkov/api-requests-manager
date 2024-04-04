@@ -14,17 +14,17 @@ export class RequestsStreamItemEntity extends Entity implements IRequestsStreamI
   }
 
   public get request_next() :  Promise<IRequest | undefined> {
-    return dbContext.RequestController.LoadByID(this.request_next_id!);
+    return dbContext.RequestController.LoadByID(this.index!);
   }
 
   requests_stream_id: number | undefined;
   request_id: number | undefined;
-  request_next_id: number | undefined;
+  index: number | undefined;
 
   FillFromJson(base: any): void {
     this.id = base.id;
     this.requests_stream_id = base.requests_stream_id;
     this.request_id = base.request_id;
-    this.request_next_id = base.request_next_id;
+    this.index = base.request_next_id;
   }
 }

@@ -10,13 +10,16 @@ export class CallerV1 extends Caller {
   }
 
 
-  Map(): void {
-    throw new Error("Method not implemented.");
+  async Map(): Promise<void> {
+    if(this.CurrentIndex == 0)
+      return;
+
+
   }
 
 
   Call(): void {
-    fetch(this.CurrentRequestFullInfo!.input, this.CurrentRequestFullInfo?.init)
+    fetch(this.CurrentRequest!.input, this.CurrentRequest?.init)
       .then(res => {
         return res.json();
       })
@@ -24,6 +27,6 @@ export class CallerV1 extends Caller {
         this.Responses[this.CurrentIndex] = result;
       })
 
-    this.CurrentRequestFullInfo = undefined;
+    this.CurrentRequest = undefined;
   }
 }
