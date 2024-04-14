@@ -16,6 +16,8 @@ import { RequestsStreamResultLogController } from './controllers/RequestsStreamR
 import { RequestsStreamResultLogEntity } from './entities/RequestsStreamResultLogEntity';
 import { RequestsStreamItemController } from './controllers/RequestsStreamItemController';
 import { RequestsStreamItemEntity } from './entities/RequestsStreamItemEntity';
+import { MappingController } from './controllers/MappingController';
+import { MappingEntity } from './entities/MappingEntity';
 
 export class DbContext extends Database {
 
@@ -27,6 +29,7 @@ export class DbContext extends Database {
   RequestsStreamController! : RequestsStreamController;
   RequestsStreamResultLogController! : RequestsStreamResultLogController;
   RequestsStreamItemController! : RequestsStreamItemController;
+  MappingController! : MappingController;
 
   constructor(_dbPath : string, is_migration : boolean = false){
 
@@ -41,6 +44,7 @@ export class DbContext extends Database {
     this.RequestsStreamController = new RequestsStreamController(this, 'requests_stream');
     this.RequestsStreamResultLogController = new RequestsStreamResultLogController(this, 'requests_stream');
     this.RequestsStreamItemController = new RequestsStreamItemController(this, 'requests_stream_item');
+    this.MappingController = new MappingController(this, 'mapping');
 
     this.InitIPCAims();
   }
@@ -53,6 +57,7 @@ export class DbContext extends Database {
     this.InitCRUDIPCAims<RequestsStreamEntity>(this.RequestsStreamController);
     this.InitCRUDIPCAims<RequestsStreamResultLogEntity>(this.RequestsStreamResultLogController);
     this.InitCRUDIPCAims<RequestsStreamItemEntity>(this.RequestsStreamItemController);
+    this.InitCRUDIPCAims<MappingEntity>(this.MappingController);
 
     ipcMain.on('HttpHeaderController.LoadAllByRequestId', async (event, arg) => {
       this.HttpHeaderController.LoadAllByRequestId(arg).then(res => {
@@ -63,6 +68,12 @@ export class DbContext extends Database {
     ipcMain.on('RequestsStreamResultLogController.LoadAllByRequestsStreamId', async (event, arg) => {
       this.RequestsStreamResultLogController.LoadAllByRequestsStreamId(arg).then(res => {
         event.reply('RequestsStreamResultLogController.LoadAllByRequestsStreamId', res);
+      });
+    });
+
+    ipcMain.on('MappingController.LoadAllByRequestsStreamItemId', async (event, arg) => {
+      this.MappingController.LoadAllByRequestsStreamItemId(arg).then(res => {
+        event.reply('MappingController.LoadAllByRequestsStreamItemId', res);
       });
     });
   }
@@ -112,7 +123,7 @@ function DeleteDb(path : string){
   }
 }
 
-let dbContext : DbContext = new DbContext(path.join(app.getPath('userData'), 'index.db'));
+let dbContext : DbContext = new DbContext(path.join(app.getPath('userData'), 'index.db'), true);
 export {dbContext};
 
 

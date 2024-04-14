@@ -1,4 +1,3 @@
-import { Database } from "sqlite3";
 import {HttpMethodEntity} from "../entities/HttpMethodEntity"
 import { BaseController } from "./BaseController";
 import { DbContext } from "../context";

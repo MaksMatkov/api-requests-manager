@@ -1,5 +1,5 @@
 import { Entity } from "../../domain/abstractions/BaseEntity";
-import { IHttpMethod } from "../../domain/interfaces/IHttpMethod";
+import { IEntityConvertable } from "../../domain/interfaces/IEntityConvertable";
 import { IRequest } from "../../domain/interfaces/IRequest";
 import { RequestEntity } from "../../main/entities/RequestEntity";
 import { httpHeaderService } from "../services/HttpHeaderService";
@@ -7,7 +7,7 @@ import { httpMethodService } from "../services/HttpMethodService";
 import { HttpHeaderModel } from "./HttpHeaderModel";
 import { HttpMethodModel } from "./HttpMethodModel";
 
-export class RequestModel extends Entity implements IRequest {
+export class RequestModel extends Entity implements IRequest, IEntityConvertable<RequestEntity> {
   public name : string | undefined;
   public path : string | undefined;
   public body : string | undefined;

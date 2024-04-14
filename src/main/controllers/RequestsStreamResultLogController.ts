@@ -8,7 +8,7 @@ export class RequestsStreamResultLogController extends BaseController<RequestsSt
   }
 
   LoadAllByRequestsStreamId(id : number): Promise<RequestsStreamResultLogEntity[]> {
-    const query = `SELECT * FROM ${this.table_name} WHERE requests_stream_id = ? `;
+    const query = `SELECT * FROM ${this.table_name} WHERE requests_stream_id = ` + id;
 
     return new Promise((resolve, reject) => {
       this._db.all(query, (err, rows) => {

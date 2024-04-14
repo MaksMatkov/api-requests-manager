@@ -1,6 +1,4 @@
-import { IRequest } from "../../domain/interfaces/IRequest";
 import { IRequestsStream } from "../../domain/interfaces/IRequestsStream";
-import { IRequestsStreamItem } from "../../domain/interfaces/IRequestsStreamItem";
 import { ICaller } from "../interfaces/ICaller";
 import { CallBackKeys } from "../models/CallBackKeys";
 import { RequestFullModel } from "../models/RequestFullModel";
@@ -10,9 +8,9 @@ export abstract class Caller implements ICaller {
   CurrentIndex: number = 0;
   Responses!: string[];
   Request!: RequestFullModel[];
-  protected CallBackKeys! : CallBackKeys;
+  protected CallBackKeys : CallBackKeys | undefined;
 
-  constructor(requestStream : IRequestsStream, callBackKeys : CallBackKeys){
+  constructor(requestStream : IRequestsStream, callBackKeys : CallBackKeys | undefined){
     this.CurrentIndex = 0;
     this.CallBackKeys = callBackKeys;
     this.ParseToRequestFullModel(requestStream).then(() => this.Procces());
@@ -25,7 +23,7 @@ export abstract class Caller implements ICaller {
       if(!requests_stream_items)
         return;
 
-      requests_stream_items.sort((a ,b) => a.index! - b.index!);
+      requests_stream_items.sort((a ,b) => a.position_index! - b.position_index!);
       this.Responses = new Array(requests_stream_items.length);
 
       await requests_stream_items.forEach(async requestStreamItem => {
@@ -55,23 +53,19 @@ export abstract class Caller implements ICaller {
               mappings = mapping?.map(el => [el.field_from_path!, el.field_to_path!])
             })
 
-            this.Request.push(new RequestFullModel(new URL(request.path!), requestStreamItem.index!, requestInit, mappings));
+            this.Request.push(new RequestFullModel(new URL(request.path!), requestStreamItem.position_index!, requestInit, mappings));
           }
         });
       });
 
   })
-
-    try{
-
-    }
-    catch(err) {throw err}
   }
 
   abstract Map(): void;
   abstract Call(): void;
 
   Procces() : void {
+    return;
     this.CurrentRequest = this.Request[this.CurrentIndex];
     this.Request.map(val => {
       try{

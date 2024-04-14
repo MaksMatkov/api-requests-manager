@@ -9,7 +9,8 @@ export type Channels = 'ipc-example'
 | 'RequestsStreamController.LoadByID' | 'RequestsStreamController.LoadAll' | 'RequestsStreamController.Delete' | 'RequestsStreamController.Save' | 'RequestsStreamController.LoadAllByRequestId'
 | 'RequestsStreamItemController.LoadByID' | 'RequestsStreamItemController.LoadAll' | 'RequestsStreamItemController.Delete' | 'RequestsStreamItemController.Save' | 'RequestsStreamItemController.LoadAllByRequestId'
 | 'RequestsStreamResultLogController.LoadByID' | 'RequestsStreamResultLogController.LoadAll' | 'RequestsStreamResultLogController.Delete' | 'RequestsStreamResultLogController.Save' | 'RequestsStreamResultLogController.LoadAllByRequestId'
-| 'RequestsStreamResultLogController.LoadAllByRequestsStreamId' | 'RequestsStreamItemController.LoadAllByRequestsStreamId';
+| 'RequestsStreamResultLogController.LoadAllByRequestsStreamId' | 'RequestsStreamItemController.LoadAllByRequestsStreamId'
+| 'MappingController.LoadByID' | 'MappingController.LoadAll' | 'MappingController.Delete' | 'MappingController.Save' | 'MappingController.LoadAllByRequestsStreamItemId';
 
 const electronHandler = {
   ipcRenderer: {

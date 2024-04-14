@@ -134,14 +134,13 @@ app
   .then(() => {
     // Check and create SQLite database on application start
     dbContext.SayHi();
-    createTables(dbContext);
-
-
-    createWindow();
-    app.on('activate', () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createWindow();
+    createTables(dbContext).then(() => {
+      createWindow();
+      app.on('activate', () => {
+        // On macOS it's common to re-create a window in the app when the
+        // dock icon is clicked and there are no other windows open.
+        if (mainWindow === null) createWindow();
+      });
     });
   })
   .catch(console.log);

@@ -1,9 +1,13 @@
-import {RequestEntity} from "../entities/RequestEntity"
-import { BaseController } from "./BaseController";
 import { DbContext } from "../context";
+import { RequestEntity } from "../entities/RequestEntity";
+import { RequestsStreamEntity } from "../entities/RequestsStreamEntity";
+import { BaseController } from "./BaseController";
 
 export class RequestController extends BaseController<RequestEntity> {
-  constructor(_db : DbContext, table_name : string){
-    super(_db, table_name, RequestEntity)
+  constructor(_db: DbContext, table_name: string) {
+    var str = typeof(RequestEntity); // undefiend
+    var str2 = typeof(RequestsStreamEntity); // function
+    console.log(str)
+    super(_db, table_name, RequestEntity);
   }
 }

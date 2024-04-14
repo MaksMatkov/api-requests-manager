@@ -1,11 +1,10 @@
-import { IRequest } from "../domain/interfaces/IRequest";
 import { IRequestsStream } from "../domain/interfaces/IRequestsStream";
 import { Caller } from "./abstraction/Caller";
 import { CallBackKeys } from "./models/CallBackKeys";
 
 export class CallerV1 extends Caller {
 
-  constructor(requestStream : IRequestsStream, callBackKeys : CallBackKeys) {
+  constructor(requestStream : IRequestsStream, callBackKeys : CallBackKeys | undefined) {
     super(requestStream, callBackKeys);
   }
 
@@ -13,8 +12,9 @@ export class CallerV1 extends Caller {
   async Map(): Promise<void> {
     if(this.CurrentIndex == 0)
       return;
+    else{
 
-
+    }
   }
 
 

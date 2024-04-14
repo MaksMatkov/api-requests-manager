@@ -1,18 +1,17 @@
-import { Database } from "sqlite3";
 import { Entity } from "../../domain/abstractions/BaseEntity";
 import { DbContext } from "../context";
 
 
-interface IEntityConstructor<EntityType> {
-  new (): EntityType;
+interface IEntityConstructor<T> {
+  new (): T;
 }
 
-export abstract class BaseController <EntityType extends Entity>{
+export abstract class BaseController <T extends Entity>{
 
-  constructor(protected _db : DbContext, protected table_name : string, protected entityConstructor: IEntityConstructor<EntityType>){
+  constructor(protected _db : DbContext, protected table_name : string, protected entityConstructor: IEntityConstructor<T>){
   }
 
-  public LoadByID(id : number) : Promise<EntityType> {
+  public LoadByID(id : number) : Promise<T> {
     const query = `SELECT * FROM ${this.table_name} WHERE id = ? `;
     return new Promise((resolve, reject) => {
       this._db.get(query, [id], (err , row) => {
@@ -27,7 +26,7 @@ export abstract class BaseController <EntityType extends Entity>{
     });
   }
 
-  public LoadAll(): Promise<EntityType[]> {
+  public LoadAll(): Promise<T[]> {
     const query = ` SELECT * FROM ${this.table_name} `;
 
     return new Promise((resolve, reject) => {
@@ -36,7 +35,7 @@ export abstract class BaseController <EntityType extends Entity>{
           reject(err);
         } else {
           console.log(rows)
-          const results: EntityType[] = rows.map((row) => {
+          const results: T[] = rows.map((row) => {
             const entity = new this.entityConstructor();
             entity.FillFromJson(row);
             return entity;
@@ -62,14 +61,14 @@ export abstract class BaseController <EntityType extends Entity>{
     });
   }
 
-  private GetInsertSql(entity: EntityType): string {
+  private GetInsertSql(entity: T): string {
     const columns = Object.keys(entity).filter(key => key !== 'id').join(', ');
     const values = Object.values(entity).filter(value => value !== undefined).map(value => `'${value}'`).join(', ');
 
     return `INSERT INTO ${this.table_name} (${columns}) VALUES (${values})`;
   }
 
-  private GetUpdateSql(entity: EntityType): string {
+  private GetUpdateSql(entity: T): string {
     const setClause = Object.entries(entity)
       .filter(([key, value]) => key !== 'id' && value !== undefined)
       .map(([key, value]) => `${key} = '${value}'`)
@@ -78,7 +77,7 @@ export abstract class BaseController <EntityType extends Entity>{
     return `UPDATE ${this.table_name} SET ${setClause} WHERE id = ${entity.id}`;
   }
 
-  public Save(entity: EntityType): Promise<EntityType> {
+  public Save(entity: T): Promise<T> {
     const insertQuery = this.GetInsertSql(entity);
     const updateQuery = this.GetUpdateSql(entity);
 

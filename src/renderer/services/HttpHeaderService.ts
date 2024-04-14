@@ -18,7 +18,7 @@ class HttpHeaderService extends BaseService<HttpHeaderModel> {
         });
         resolve(results);
       });
-      window.electron.ipcRenderer.sendMessage('HttpHeaderController.LoadAllByRequestId');
+      window.electron.ipcRenderer.sendMessage('HttpHeaderController.LoadAllByRequestId', id);
     });
   }
 }
